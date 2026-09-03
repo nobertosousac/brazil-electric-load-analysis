@@ -1,6 +1,26 @@
-# Project data
-data/raw/*
-data/processed/*
+# Dados coletados e processados
+data/raw/
+data/processed/
 
-!data/raw/.gitkeep
-!data/processed/.gitkeep
+# Ambientes virtuais
+.venv/
+venv/
+env/
+
+# Variáveis de ambiente
+.env
+
+# Arquivos gerados pelo Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Arquivos temporários do Jupyter
+.ipynb_checkpoints/
+
+# Configurações locais do VS Code
+.vscode/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
