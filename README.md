@@ -43,66 +43,59 @@ Durante a análise, foram investigadas as seguintes perguntas:
 
 ## Etapas do Projeto
 
-O desenvolvimento foi dividido em quatro notebooks.
+O projeto começa com a coleta dos arquivos anuais e continua em quatro notebooks, executados em sequência.
 
-| Notebook | Etapa | Descrição |
+| Arquivo | Etapa | Descrição |
 |---|---|---|
-| [1.data_understanding.ipynb](notebooks/1.data_understanding.ipynb) | Entendimento dos dados | Análise inicial do arquivo de 2025 para compreender a estrutura, as colunas e os subsistemas disponíveis. |
-| [2.data_consolidation.ipynb](notebooks/2.data_consolidation.ipynb) | Consolidação e qualidade | União do histórico, correção dos tipos, análise de valores ausentes, duplicidades e continuidade temporal. |
-| [3.exploratory_analysis.ipynb](notebooks/3.exploratory_analysis.ipynb) | Análise exploratória | Estudo da evolução histórica, distribuição, sazonalidade, perfis regionais, valores extremos e correlações. |
-| [4.time_series_diagnostics.ipynb](notebooks/4.time_series_diagnostics.ipynb) | Diagnóstico temporal | Construção da série diária, decomposição, autocorrelação, testes de estacionariedade e análise dos resíduos. |
-
-## Visualizações
-
-Os gráficos exploratórios foram desenvolvidos com Plotly. Dessa forma, é possível aproximar períodos, selecionar intervalos e consultar os valores diretamente nos notebooks.
-
-O Matplotlib foi mantido apenas nos gráficos de autocorrelação gerados pelo Statsmodels. Nesses casos, foi utilizado o estilo ggplot para manter uma aparência próxima dos demais gráficos do projeto.
-
-## Qualidade dos Dados
-
-Durante a consolidação, foram identificados alguns pontos importantes:
-
-- a coluna de carga estava armazenada como texto entre 2000 e 2024;
-- 259 campos vazios passaram a ser reconhecidos como valores ausentes depois da conversão numérica;
-- uma carga igual a zero no subsistema Sul foi tratada como ausente;
-- não foram encontrados registros duplicados;
-- 260 cargas nulas estavam presentes em linhas existentes;
-- 104 linhas horárias não existiam na base;
-- parte das ausências estava relacionada ao início do horário de verão;
-- três dias completos não possuíam carga válida para o cálculo do SIN.
-
-Mesmo com essas ocorrências, a série horária do SIN apresentou cobertura de 99,960%.
-
-Na série diária, os três dias completamente vazios foram estimados pela média do mesmo dia da semana anterior e posterior. Os dias com 23 horas foram mantidos sem alteração, pois correspondem às mudanças para o horário de verão.
+| [collect.py](src/collect.py) | Coleta dos dados | Consulta o portal do ONS e baixa os arquivos anuais no formato Parquet. |
+| [1.data_understanding.ipynb](notebooks/1.data_understanding.ipynb) | Entendimento dos dados | Analisa inicialmente o arquivo de 2025 para entender a estrutura, as colunas e os subsistemas disponíveis. |
+| [2.data_consolidation.ipynb](notebooks/2.data_consolidation.ipynb) | Consolidação e qualidade | Reúne o histórico e verifica tipos, valores ausentes, duplicidades e continuidade temporal. |
+| [3.exploratory_analysis.ipynb](notebooks/3.exploratory_analysis.ipynb) | Análise exploratória | Estuda a evolução histórica, a distribuição da carga e os padrões mensais, semanais e horários. |
+| [4.time_series_diagnostics.ipynb](notebooks/4.time_series_diagnostics.ipynb) | Diagnóstico temporal | Analisa tendência, sazonalidade, autocorrelação, estacionariedade e resíduos da série diária. |
 
 ## Principais Resultados
 
 ### Evolução histórica
 
-- A carga média anual do SIN cresceu 95,06% entre 2000 e 2025.
-- A taxa média composta de crescimento foi de 2,71% ao ano.
-- O Sudeste permaneceu como o subsistema de maior carga durante todo o período.
-- O Norte apresentou o maior crescimento proporcional, com aumento de 234,21%.
-- A participação média do Sudeste no SIN caiu de 62,98% para 55,44%.
-- A participação do Norte aumentou de 6,18% para 10,57%.
+#### Carga média anual do SIN
+
+![Carga elétrica média anual do SIN](images/evolucao-carga-sin.png)
+
+**Insight:** A carga média anual do SIN passou de aproximadamente 40,8 mil MWmed em 2000 para 79,6 mil MWmed em 2025. Isso representa um crescimento de 95,06% no período e uma taxa média de 2,71% ao ano.
+
+#### Crescimento por subsistema
+
+![Crescimento relativo da carga elétrica por subsistema](images/crescimento-subsistemas.png)
+
+**Insight:** O Norte apresentou o maior crescimento proporcional, com aumento de 234,21% em relação a 2000. Em seguida aparecem Nordeste, Sul e Sudeste, com crescimentos de 126,28%, 104,92% e 71,91%, respectivamente.
 
 ### Padrões temporais
 
-- Fevereiro e março apresentaram as maiores cargas em relação à média de cada ano.
-- Junho e julho ficaram entre os meses de menor carga.
-- A carga diminuiu nos finais de semana, principalmente aos domingos.
-- Nos dias úteis, a carga cresceu pela manhã e permaneceu elevada durante a tarde e o início da noite.
-- O maior índice horário do SIN apareceu às 19h.
-- Os subsistemas apresentaram perfis mensais e horários diferentes.
+#### Perfil mensal da carga do SIN
+
+![Perfil mensal médio da carga do SIN](images/perfil-mensal-sin.png)
+
+**Insight:** Fevereiro apresentou o maior índice mensal, com 104,60% da média anual, enquanto julho registrou o menor, com 95,03%. O resultado mostra uma redução da carga entre o começo do ano e o meio do ano, seguida por uma recuperação até dezembro.
+
+#### Perfil horário dos subsistemas
+
+![Perfil horário médio da carga por subsistema](images/perfil-horario-subsistemas.png)
+
+**Insight:** Sul e Sudeste atingiram as menores cargas por volta das 3h e os maiores valores às 19h. No Nordeste, o pico também ocorreu às 19h, enquanto no Norte apareceu mais tarde, às 21h. Isso mostra que o comportamento horário não é igual entre os subsistemas.
 
 ### Diagnóstico da série temporal
 
-- A média e a variabilidade da série diária mudaram ao longo do tempo.
-- A decomposição identificou componentes semanal e anual, além da tendência.
-- A série original apresentou forte autocorrelação, principalmente em intervalos de sete dias.
-- Os testes ADF e KPSS indicaram que a série original não é estacionária.
-- A primeira diferença foi classificada como estacionária pelos dois testes.
-- Os resíduos da decomposição ainda apresentaram valores extremos e autocorrelação.
+#### Série diária e tendência
+
+![Carga diária do SIN e tendência estimada](images/tendencia-serie-diaria.png)
+
+**Insight:** A tendência confirma o crescimento da carga do SIN ao longo dos 26 anos, mas também mostra períodos de desaceleração e queda. A partir de 2021, o avanço se torna mais acentuado e leva a série aos maiores níveis do período.
+
+#### Série original e primeira diferença
+
+![Série original e primeira diferença](images/serie-original-diferenciada.png)
+
+**Insight:** A média da série original muda ao longo do tempo, indicando que ela não é estacionária. Depois da primeira diferença, as variações ficam distribuídas ao redor de zero. Os testes ADF e KPSS confirmaram a estacionariedade da série transformada, embora ainda existam valores extremos e mudanças na variabilidade.
 
 ## Tecnologias Utilizadas
 
@@ -120,6 +113,7 @@ Na série diária, os três dias completamente vazios foram estimados pela médi
 
 - data/raw: arquivos anuais coletados no formato Parquet;
 - data/processed: dataset histórico consolidado;
+- images: gráficos utilizados na apresentação dos principais resultados;
 - notebooks: notebooks de entendimento, consolidação, análise exploratória e diagnóstico temporal;
 - src/collect.py: script responsável pela coleta dos arquivos no portal do ONS;
 - requirements.txt: dependências utilizadas no projeto.
@@ -135,17 +129,19 @@ git clone https://github.com/nobertosousac/brazil-electric-load-analysis.git
 cd brazil-electric-load-analysis
 ```
 
-### 2. Criar e ativar o ambiente virtual
+### 2. Criar e ativar o ambiente Conda
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
+conda create -n energy_timeseries_env python=3.12 -y
+conda activate energy_timeseries_env
 ```
+
+Se o ambiente já existir, basta executar `conda activate energy_timeseries_env`.
 
 ### 3. Instalar as dependências
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ### 4. Coletar os dados
