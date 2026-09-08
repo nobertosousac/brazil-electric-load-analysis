@@ -131,7 +131,7 @@ brazil-electric-load-analysis/
 └── requirements.txt                 # Dependências do projeto
 ```
 
-As pastas de dados (raw e processed) não são versionadas no GitHub. Os arquivos podem ser coletados novamente pelo script disponível em src.
+Os dados que estão na pasta 'data' não são versionadas no GitHub. Os arquivos podem ser coletados novamente pelo script disponível em src.
 
 ## Como Executar o Projeto
 
@@ -177,10 +177,14 @@ Ou informar anos específicos:
 python src/collect.py --years 2020 2021 2022
 ```
 
-### 5. Abrir os notebooks
+### 5. Execução dos Notebooks
+
+Com os dados coletados e o ambiente Conda ativado, execute os notebooks na seguinte ordem:
 
 ```bash
-jupyter lab
+1º - 1.data_understanding.ipynb
+2º - 2.data_consolidation.ipynb
+3º - 3.exploratory_analysis.ipynb
+4º - 4.time_series_diagnostics.ipynb
 ```
-
-Depois, execute os notebooks na ordem numérica. O segundo notebook cria o arquivo consolidado utilizado nas etapas seguintes.
+Cada notebook deve ser executado completamente antes de avançar para o próximo.
