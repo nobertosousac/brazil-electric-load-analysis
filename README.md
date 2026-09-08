@@ -28,7 +28,7 @@ O recorte utilizado possui:
 
 ## Objetivo
 
-O objetivo principal é compreender a evolução e os padrões da carga elétrica brasileira ao longo de 26 anos.
+O objetivo principal é compreender a evolução e os padrões da carga elétrica brasileira ao longo de 25 anos.
 
 Durante a análise, foram investigadas as seguintes perguntas:
 
@@ -53,7 +53,9 @@ O projeto começa com a coleta dos arquivos anuais e continua em quatro notebook
 | [3.exploratory_analysis.ipynb](notebooks/3.exploratory_analysis.ipynb) | Análise exploratória | Estuda a evolução histórica, a distribuição da carga e os padrões mensais, semanais e horários. |
 | [4.time_series_diagnostics.ipynb](notebooks/4.time_series_diagnostics.ipynb) | Diagnóstico temporal | Analisa tendência, sazonalidade, autocorrelação, estacionariedade e resíduos da série diária. |
 
-## Principais Resultados
+## Principais Insights Obtidos
+
+Abaixo estão alguns dos principais insights encontrados durante a análise. Para visualizar todas as verificações, gráficos e interpretações, basta reproduzir o projeto e executar os notebooks na ordem indicada.
 
 ### Evolução histórica
 
@@ -111,14 +113,25 @@ O projeto começa com a coleta dos arquivos anuais e continua em quatro notebook
 
 ## Estrutura do Repositório
 
-- data/raw: arquivos anuais coletados no formato Parquet;
-- data/processed: dataset histórico consolidado;
-- images: gráficos utilizados na apresentação dos principais resultados;
-- notebooks: notebooks de entendimento, consolidação, análise exploratória e diagnóstico temporal;
-- src/collect.py: script responsável pela coleta dos arquivos no portal do ONS;
-- requirements.txt: dependências utilizadas no projeto.
+```text
+brazil-electric-load-analysis/
+├── data/
+│   ├── raw/                         # Dados brutos coletados por API de 2000 a 2025
+│   └── processed/                   # Carga histórica consolidada em um arquivo parquet
+├── images/                          # Gráficos apresentados no README
+├── notebooks/
+│   ├── 1.data_understanding.ipynb
+│   ├── 2.data_consolidation.ipynb
+│   ├── 3.exploratory_analysis.ipynb
+│   └── 4.time_series_diagnostics.ipynb
+├── src/
+│   └── collect.py                   # Script para coleta dos dados por API no portal do ONS
+├── .gitignore
+├── README.md
+└── requirements.txt                 # Dependências do projeto
+```
 
-As pastas de dados não são versionadas no GitHub. Os arquivos podem ser coletados novamente pelo script disponível em src.
+As pastas de dados (raw e processed) não são versionadas no GitHub. Os arquivos podem ser coletados novamente pelo script disponível em src.
 
 ## Como Executar o Projeto
 
