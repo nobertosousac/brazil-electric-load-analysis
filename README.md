@@ -171,16 +171,3 @@ jupyter lab
 ```
 
 Depois, execute os notebooks na ordem numérica. O segundo notebook cria o arquivo consolidado utilizado nas etapas seguintes.
-
-## Limitações
-
-- A abrangência do SIN e a metodologia dos dados mudaram durante o período analisado.
-- A entrada de novas cargas no sistema pode afetar comparações entre anos distantes.
-- O ciclo anual foi aproximado por um período de 365 dias.
-- Os três dias preenchidos na série diária representam estimativas.
-- Informações como temperatura, feriados, atividade econômica e acontecimentos operacionais não fazem parte da base.
-- Os resultados descrevem o comportamento histórico e não devem ser interpretados como previsão.
-
-## Autor
-
-Projeto desenvolvido por **Noberto Sousa**.
