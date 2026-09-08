@@ -107,7 +107,7 @@ O projeto começa com a coleta dos arquivos anuais e continua em quatro notebook
 - Statsmodels
 - PyArrow
 - Requests
-- JupyterLab
+- Jupyter Notebook
 
 ## Estrutura do Repositório
 
